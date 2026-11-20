@@ -33,20 +33,22 @@ int main() {
     c.addLocation(Location(3, "Music room", "A grand piano and shelves of sheet music. Nothing seems out of place."));
     c.addLocation(Location(4, "West hallway", "A long corridor leading toward the gallery."));
 
-    // ---- Clues: (id, title, description, location, points-to-suspect) ----
-    // Titles/places come from the GUI objects. Descriptions are PLACEHOLDERS:
-    // *** Member 3: replace the description text with the GUI's real wording ***
-    c.addClue(Clue(1, "Velvet Fibres",
-        "Dark velvet fibres caught near the cabinet latch.", "Gallery", 4));
+       // ---- Clues: (id, title, description, location, points-to-suspect) ----
+    // Titles and wording are the GUI's. IDs are kept as Member 2 had them.
+    c.addClue(Clue(1, "Blue Fibres",
+        "Tiny blue fibres matching the display's velvet lining were found on a jacket.", "Gallery", 2));
     c.addClue(Clue(2, "The Undamaged Lock",
-        "The cabinet lock shows no damage. It was opened with a key.", "Gallery", 2));
-    c.addClue(Clue(3, "Desk Drawer",
-        "The spare cabinet key is missing; the drawer log shows Adrian handled it last.", "Study", 2));
-    c.addClue(Clue(4, "Open Notebook",
-        "A notebook in Adrian's handwriting noting the gallery layout and guard routine.", "Study", 2));
-    c.addClue(Clue(5, "Dropped Photograph",
-        "One of Nina's photographs shows a man in Adrian's coat leaving the gallery at 10:03.", "West hallway", 2));
+        "The display cabinet's lock shows no signs of forced entry.", "Gallery", 0));
+    c.addClue(Clue(3, "The Missing Spare Key",
+        "The spare cabinet key was reported missing three days before the party.", "Study", 2));
+    c.addClue(Clue(4, "The Floor Plan",
+        "A detailed sketch of the manor's private rooms was found in a notebook.", "Study", 2));
+    c.addClue(Clue(5, "Nina's Photograph",
+        "A photograph timestamped 9:53 PM shows the display already empty.", "West hallway", 0));
+
     c.addValidLink(2, 3);   // undamaged lock + missing spare key
+    c.addValidLink(3, 4);   // missing spare key + floor plan (planning)
+    c.addValidLink(1, 2);   // blue fibres + undamaged lock (the cabinet)
 
     // ---- Interrogations (answers copied from the GUI) ----
     // Last number = clue that contradicts the answer (0 = none)
@@ -58,11 +60,11 @@ int main() {
         "The sapphire's value has risen considerably. Any responsible owner would protect such an asset.", 0);
     victor.addQA("Who had access to the cabinet?",
         "The display was locked. I kept the main key. A spare key may have gone missing, "
-        "but I only discovered that recently.", 0);
+        "but I only discovered that recently.", 3);
 
     Interrogation adrian(c.findSuspect(2));
     adrian.addQA("Where were you during the outage?",
-        "In the music room, exactly where I had been before. I didn't go near the gallery that evening.", 5);
+        "In the music room, exactly where I had been before. I didn't go near the gallery that evening.", 1);
     adrian.addQA("Do you know the manor's layout?",
         "Only the usual staff areas. I have no reason to study the private rooms.", 4);
     adrian.addQA("Did you notice anything unusual?",
@@ -113,7 +115,7 @@ int main() {
     c.displayEvidenceBoard();
 
     cout << "\n\n=== ACCUSATION ===";
-    c.accuse(2, 5);
+    c.accuse(2, 1);
 
     cout << "\nFinal Score: " << c.getScore() << "/100" << endl;
     return 0;
