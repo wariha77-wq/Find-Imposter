@@ -49,6 +49,7 @@ int main() {
     c.addValidLink(1, 2);   // missing spare key + undamaged lock
     c.addValidLink(1, 4);   // missing spare key + floor plan (planning)
     c.addValidLink(2, 3);   // undamaged lock + blue fibres (the cabinet)
+ c.addValidLink(3, 5);   // blue fibres + Nina's photograph
 
     // ---- Interrogations (answers copied from the GUI) ----
     // Last number = clue that contradicts the answer (0 = none)
