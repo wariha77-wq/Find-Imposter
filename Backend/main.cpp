@@ -24,31 +24,31 @@ int main() {
         "and was recently refused sponsorship for his new show.",
         "Says he was in the drawing room with two other guests."));
 
-    // *** Member 3: set to the real culprit's ID (1=Victor 2=Adrian 3=Nina 4=Felix) ***
+    // The real culprit (1=Victor 2=Adrian 3=Nina 4=Felix)
     c.setCulprit(2);
 
-    // ---- Locations (Gallery text is from the GUI) ----
+    // ---- Locations ----
     c.addLocation(Location(1, "Gallery", "The sapphire's display chamber. The silence feels deliberate."));
     c.addLocation(Location(2, "Study", "Victor's private study. A desk drawer and an open notebook catch your eye."));
     c.addLocation(Location(3, "Music room", "A grand piano and shelves of sheet music. Nothing seems out of place."));
     c.addLocation(Location(4, "West hallway", "A long corridor leading toward the gallery."));
 
-       // ---- Clues: (id, title, description, location, points-to-suspect) ----
-    // Titles and wording are the GUI's. IDs are kept as Member 2 had them.
-    c.addClue(Clue(1, "Blue Fibres",
-        "Tiny blue fibres matching the display's velvet lining were found on a jacket.", "Gallery", 2));
+    // ---- Clues: (id, title, description, location, points-to-suspect) ----
+    // IDs, titles and wording are the same as the GUI.
+    c.addClue(Clue(1, "The Missing Spare Key",
+        "The spare cabinet key was reported missing three days before the party.", "Study", 2));
     c.addClue(Clue(2, "The Undamaged Lock",
         "The display cabinet's lock shows no signs of forced entry.", "Gallery", 0));
-    c.addClue(Clue(3, "The Missing Spare Key",
-        "The spare cabinet key was reported missing three days before the party.", "Study", 2));
+    c.addClue(Clue(3, "Blue Fibres",
+        "Tiny blue fibres matching the display's velvet lining were found on a jacket.", "Gallery", 2));
     c.addClue(Clue(4, "The Floor Plan",
         "A detailed sketch of the manor's private rooms was found in a notebook.", "Study", 2));
     c.addClue(Clue(5, "Nina's Photograph",
         "A photograph timestamped 9:53 PM shows the display already empty.", "West hallway", 0));
 
-    c.addValidLink(2, 3);   // undamaged lock + missing spare key
-    c.addValidLink(3, 4);   // missing spare key + floor plan (planning)
-    c.addValidLink(1, 2);   // blue fibres + undamaged lock (the cabinet)
+    c.addValidLink(1, 2);   // missing spare key + undamaged lock
+    c.addValidLink(1, 4);   // missing spare key + floor plan (planning)
+    c.addValidLink(2, 3);   // undamaged lock + blue fibres (the cabinet)
 
     // ---- Interrogations (answers copied from the GUI) ----
     // Last number = clue that contradicts the answer (0 = none)
@@ -60,11 +60,11 @@ int main() {
         "The sapphire's value has risen considerably. Any responsible owner would protect such an asset.", 0);
     victor.addQA("Who had access to the cabinet?",
         "The display was locked. I kept the main key. A spare key may have gone missing, "
-        "but I only discovered that recently.", 3);
+        "but I only discovered that recently.", 1);
 
     Interrogation adrian(c.findSuspect(2));
     adrian.addQA("Where were you during the outage?",
-        "In the music room, exactly where I had been before. I didn't go near the gallery that evening.", 1);
+        "In the music room, exactly where I had been before. I didn't go near the gallery that evening.", 3);
     adrian.addQA("Do you know the manor's layout?",
         "Only the usual staff areas. I have no reason to study the private rooms.", 4);
     adrian.addQA("Did you notice anything unusual?",
@@ -93,7 +93,7 @@ int main() {
     cout << "\n\n=== EXPLORE: GALLERY ===";
     c.investigateLocation(1);
     c.discoverClue(2);
-    c.discoverClue(1);
+    c.discoverClue(3);
 
     cout << "\n\n=== INTERROGATE ===";
     adrian.displayQuestions();
@@ -102,7 +102,7 @@ int main() {
     felix.ask(3);
 
     cout << "\n\n=== MORE EXPLORING ===";
-    c.investigateLocation(2);  c.discoverClue(3);  c.discoverClue(4);
+    c.investigateLocation(2);  c.discoverClue(1);  c.discoverClue(4);
     c.investigateLocation(4);  c.discoverClue(5);
 
     cout << "\n\n=== CONTRADICTION CHECKS ===";
@@ -110,12 +110,12 @@ int main() {
     felix.checkContradictions(c);
 
     cout << "\n\n=== EVIDENCE WALL ===";
-    c.connectClues(1, 4);   // wrong link on purpose
-    c.connectClues(2, 3);   // correct link
+    c.connectClues(3, 4);   // wrong link on purpose
+    c.connectClues(1, 2);   // correct link
     c.displayEvidenceBoard();
 
     cout << "\n\n=== ACCUSATION ===";
-    c.accuse(2, 1);
+    c.accuse(2, 3);
 
     cout << "\nFinal Score: " << c.getScore() << "/100" << endl;
     return 0;
