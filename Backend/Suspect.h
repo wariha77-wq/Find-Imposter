@@ -1,31 +1,23 @@
 #ifndef SUSPECT_H
 #define SUSPECT_H
+#include "Character.h"
 
-#include <iostream>
-#include <string>
-using namespace std;
-
-class Suspect{
+class Suspect : public Character {
 private:
-  int suspectId;
-  string name;
-  string occupation;
-  string background;
-  string alibi;
-  bool interviewed;
+    string background;
+    string alibi;
+    bool interviewed;
+
 public:
-  Suspect(int id,string n,string o,string b,string a);
-  int getSusId();
-  string getName();
-  string getOccupation();
-  string getBackground();
-  string getAlibi();
-  bool isInterviewed();
+    Suspect(int id, string n, string o, int age, string b, string a);
 
-  void conductInterview();
-  void displaySuspect();
-
+    int getSusId() const;
+    string getBackground() const;
+    string getAlibi() const;
+    bool isInterviewed() const;
+    void conductInterview();
+    void displaySuspect() const;
+    void display() const override;
 };
-
 
 #endif
