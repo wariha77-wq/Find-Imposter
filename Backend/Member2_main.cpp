@@ -1,6 +1,6 @@
 #include "Case.h"
 #include "Interrogation.h"
-
+#include "GuiExport.h"
 int main() {
     Case c("CASE 001 - THE MIDNIGHT HEIST",
            "Blackwood Manor. During a power outage, the Star of Midnight sapphire "
@@ -119,5 +119,6 @@ int main() {
     c.accuse(2, 3);
 
     cout << "\nFinal Score: " << c.getScore() << "/100" << endl;
+     exportForGui(c, victor, adrian, nina, felix, 2);
     return 0;
 }
