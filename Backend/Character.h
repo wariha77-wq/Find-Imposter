@@ -8,7 +8,7 @@ class Character {
 protected:
     int id;
     string name;
-    string occupation;   // e.g. "The Owner"
+    string occupation;   
     int age;
 public:
     Character(int i, string n, string o, int a);
