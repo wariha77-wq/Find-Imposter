@@ -1,7 +1,6 @@
 #include "Evidence.h"
 
-
-Evidence::Evidence(int id,string t,string d,string location){
+Evidence::Evidence(int id, string t, string d, string location) {
     EvidenceId = id;
     title = t;
     description = d;
@@ -9,35 +8,38 @@ Evidence::Evidence(int id,string t,string d,string location){
     discovered = false;
 }
 
-int Evidence::getEvidenceID(){
+Evidence::~Evidence() {}
+
+int Evidence::getEvidenceID() const {
     return EvidenceId;
 }
 
-string Evidence::getTitle(){
+string Evidence::getTitle() const {
     return title;
 }
-string Evidence::getDescription(){
+
+string Evidence::getDescription() const {
     return description;
 }
 
-string Evidence::getLocation(){
+string Evidence::getLocation() const {
     return foundAt;
 }
 
-bool Evidence::isDiscovered(){
+bool Evidence::isDiscovered() const {
     return discovered;
 }
 
-void Evidence::discover(){
+void Evidence::discover() {
     discovered = true;
 }
-void Evidence::displayEvidence(){
-    if (discovered){
-        cout << "Evidence: " << title<<endl;
-        cout << "Description: " << description<<endl;
+
+void Evidence::displayEvidence() const {
+    if (discovered) {
+        cout << "Evidence: " << title << endl;
+        cout << "Description: " << description << endl;
         cout << "Found at: " << foundAt << endl;
     }
 }
-
 
 
