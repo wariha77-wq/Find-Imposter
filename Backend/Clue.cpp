@@ -1,17 +1,23 @@
 #include "Clue.h"
 
-Clue::Clue(int id, string t, string d, string loc, int suspectId) {
-    clueId = id; title = t; description = d; location = loc;
-    pointsTo = suspectId; discovered = false;
+Clue::Clue(int id, string t, string d, string loc, int suspectId)
+    : Evidence(id, t, d, loc) {
+    pointsTo = suspectId;
 }
-int Clue::getId() const { return clueId; }
-string Clue::getTitle() const { return title; }
-string Clue::getDescription() const { return description; }
-string Clue::getLocation() const { return location; }
-int Clue::getPointsTo() const { return pointsTo; }
-bool Clue::isDiscovered() const { return discovered; }
-void Clue::discover() { discovered = true; }
+
+int Clue::getId() const {
+    return EvidenceId;
+}
+
+int Clue::getPointsTo() const {
+    return pointsTo;
+}
+
 void Clue::display() const {
-    cout << "Clue #" << clueId << " - " << title << " (" << location << "): "
+    cout << "Clue #" << EvidenceId << " - " << title << " (" << foundAt << "): "
          << description << endl;
+}
+
+void Clue::displayEvidence() const {
+    display();
 }
